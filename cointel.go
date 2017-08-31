@@ -11,6 +11,9 @@ import (
 	"github.com/Zauberstuhl/go-coinbase"
 )
 
+const OneMinute = 60 * time.Second
+const FiveMinutes = 300 * time.Second
+
 func cleanup() {
 	fmt.Println("terminating")
 }
@@ -48,6 +51,6 @@ func main() {
 				acc.Balance.Amount, acc.Balance.Currency)
 		}
 
-		time.Sleep(300 * time.Second)
+		time.Sleep(OneMinute)
 	}
 }
