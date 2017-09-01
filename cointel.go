@@ -1,25 +1,22 @@
 package main
 
 import (
+	"github.com/senorprogrammer/cointel/modules"
+
 	"fmt"
 	"os"
 	"os/signal"
-	// "strings"
 	"syscall"
 	"time"
-
-	"github.com/Zauberstuhl/go-coinbase"
+	// "github.com/Zauberstuhl/go-coinbase"
 )
 
 const OneMinute = 60 * time.Second
 const FiveMinutes = 300 * time.Second
+const FifteenMinutes = (15 * 60) * time.Second
 
-func cleanup() {
-	fmt.Println("terminating")
-}
-
-func main() {
-	// Creates a channel to watch for Ctl-C to terminate the program
+// Creates a channel to watch for Ctl-C to terminate the program
+func makeTermination() {
 	c := make(chan os.Signal, 2)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
@@ -27,30 +24,36 @@ func main() {
 		cleanup()
 		os.Exit(1)
 	}()
+}
+
+func cleanup() {}
+
+func main() {
+	makeTermination()
+	modules.MakeClear()
+
+	// A struct to aggregate the financial values of each coin type
+	cryptoCurrencies := modules.NewCryptoCurrencies()
 
 	// Coinbase client
-	client := coinbase.APIClient{
-		Key:    os.Getenv("COINBASE_KEY"),
-		Secret: os.Getenv("COINBASE_SECRET"),
-	}
+	cbClient := modules.CoinbaseClient()
 
 	// Loop the app, periodically calling Coinbase for account balances
 	for {
-		accounts, err := client.Accounts()
+		cbAccounts, err := cbClient.Accounts()
 		if err != nil {
-			fmt.Println(err)
 			return
 		}
 
-		fmt.Printf("%v", accounts)
-		fmt.Println("Checking...")
+		cryptoCurrencies.CoinbaseUpdate(&cbAccounts)
 
-		for _, acc := range accounts.Data {
-			fmt.Printf("ID: %s\nName: %s\nType: %s\nAmount: %f\nCurrency: %s\n",
-				acc.Id, acc.Name, acc.Type,
-				acc.Balance.Amount, acc.Balance.Currency)
-		}
+		// Output the results
+		modules.Table(&cryptoCurrencies)
+		fmt.Println(modules.Json(&cryptoCurrencies))
 
-		time.Sleep(OneMinute)
+		fmt.Println("\n")
+
+		// And wait awhile until we hit the API for another update
+		time.Sleep(FifteenMinutes)
 	}
 }
