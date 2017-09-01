@@ -5,16 +5,14 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
-
 	"time"
 
-	// "github.com/Zauberstuhl/go-coinbase"
 	"github.com/leekchan/accounting"
 	"github.com/olekukonko/tablewriter"
 )
 
 var clear map[string]func() //create a map for storing clear funcs
-func MakeClear() {
+func MakeClearTerminal() {
 	clear = make(map[string]func())
 	clear["darwin"] = func() {
 		cmd := exec.Command("clear")
@@ -27,13 +25,13 @@ func callClear() {
 	value, ok := clear[runtime.GOOS] //runtime.GOOS -> linux, windows, darwin etc.
 	if ok {                          //if we defined a clear func for that platform:
 		value() //we execute it
-	} else { //unsupported platform
+	} else {
 		panic("Your platform is unsupported! I can't clear terminal screen :(")
 	}
 }
 
 // func DisplayTable(accounts *coinbase.APIAccounts) {
-func Table(cc *CryptoCurrencies) {
+func Table(container *CurrencyContainer) {
 	callClear()
 
 	// Used to format dollar values in the table output
@@ -44,7 +42,7 @@ func Table(cc *CryptoCurrencies) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Currency", "Value"})
 
-	for currency, value := range cc.Currencies {
+	for currency, value := range container.Currencies {
 		valStr := accountant.FormatMoney(value)
 
 		arr := []string{currency, valStr}
@@ -55,7 +53,7 @@ func Table(cc *CryptoCurrencies) {
 		table.Append(v)
 	}
 
-	table.SetFooter([]string{"", accountant.FormatMoney(cc.TotalValue)})
+	table.SetFooter([]string{"", accountant.FormatMoney(container.TotalValue)})
 
 	table.Render()
 

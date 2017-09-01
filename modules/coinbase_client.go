@@ -7,23 +7,26 @@ import (
 )
 
 type CoinbaseClient struct {
-	Client           coinbase.APIClient
-	CryptoCurrencies *CryptoCurrencies
+	Client    coinbase.APIClient
+	Container CurrencyContainer
 }
 
 func NewCoinbaseClient() CoinbaseClient {
-
-}
-
-func CoinbaseClient() coinbase.APIClient {
-	client := coinbase.APIClient{
+	cc := CoinbaseClient{}
+	cc.Client = coinbase.APIClient{
 		Key:    os.Getenv("COINBASE_KEY"),
 		Secret: os.Getenv("COINBASE_SECRET"),
 	}
+	cc.Container = NewCurrencyContainer()
 
-	return client
+	return cc
 }
 
-func Update() {
+func (cc *CoinbaseClient) Refresh() {
+	accounts, err := cc.Client.Accounts()
+	if err != nil {
+		return
+	}
 
+	cc.Container.CoinbaseUpdate(&accounts)
 }

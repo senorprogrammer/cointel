@@ -6,14 +6,14 @@ import (
 	"github.com/Zauberstuhl/go-coinbase"
 )
 
-type CryptoCurrencies struct {
+type CurrencyContainer struct {
 	Currencies map[string]float64
 	TotalValue float64
 	Updated    string
 }
 
-func NewCryptoCurrencies() CryptoCurrencies {
-	cc := CryptoCurrencies{}
+func NewCurrencyContainer() CurrencyContainer {
+	cc := CurrencyContainer{}
 	cc.Currencies = make(map[string]float64)
 	cc.TotalValue = 0.0
 	cc.Updated = ""
@@ -21,7 +21,8 @@ func NewCryptoCurrencies() CryptoCurrencies {
 	return cc
 }
 
-func (cc *CryptoCurrencies) CoinbaseUpdate(accounts *coinbase.APIAccounts) {
+// TODO: Move this to CoinbaseClient
+func (cc *CurrencyContainer) CoinbaseUpdate(accounts *coinbase.APIAccounts) {
 	for key := range cc.Currencies {
 		cc.Currencies[key] = 0.0
 	}

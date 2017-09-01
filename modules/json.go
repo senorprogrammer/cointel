@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 )
 
-func Json(cc *CryptoCurrencies) string {
+func Json(cc *CurrencyContainer) string {
 	json, err := json.Marshal(cc)
 	if err != nil {
 		return ""
