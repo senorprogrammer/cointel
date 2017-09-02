@@ -2,6 +2,7 @@ package modules
 
 import (
 	"os"
+	"time"
 
 	"github.com/Zauberstuhl/go-coinbase"
 )
@@ -22,11 +23,26 @@ func NewCoinbaseClient() CoinbaseClient {
 	return cc
 }
 
-func (cc *CoinbaseClient) Refresh() {
-	accounts, err := cc.Client.Accounts()
+func (client *CoinbaseClient) Refresh() {
+	accounts, err := client.Client.Accounts()
 	if err != nil {
 		return
 	}
 
-	cc.Container.CoinbaseUpdate(&accounts)
+	client.Update(accounts)
+}
+
+func (client *CoinbaseClient) Update(accounts coinbase.APIAccounts) {
+	for key := range client.Container.Currencies {
+		client.Container.Currencies[key] = 0.0
+	}
+
+	client.Container.TotalValue = 0.0
+	client.Container.Updated = time.Now().Format("2006-01-02 15:04:05")
+
+	for _, account := range accounts.Data {
+		client.Container.TotalValue += account.Native_balance.Amount
+
+		client.Container.Currencies[account.Balance.Currency] += account.Native_balance.Amount
+	}
 }
