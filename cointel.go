@@ -25,6 +25,6 @@ func main() {
 		modules.Table(&coinbaseClient.Container)
 		// fmt.Println(modules.Json(&coinbaseClient.Container))
 
-		time.Sleep(FifteenMinutes)
+		time.Sleep(OneMinute)
 	}
 }

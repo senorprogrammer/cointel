@@ -16,3 +16,11 @@ func NewCurrencyContainer() CurrencyContainer {
 
 	return cc
 }
+
+func (cont *CurrencyContainer) ZeroOut() {
+	for key := range cont.Currencies {
+		cont.Currencies[key] = 0.0
+	}
+
+	cont.TotalValue = 0.0
+}
