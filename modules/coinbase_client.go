@@ -35,11 +35,11 @@ func (client *CoinbaseClient) Refresh() {
 func (client *CoinbaseClient) Update(accounts coinbase.APIAccounts) {
 	client.Container.ZeroOut()
 
-	client.Container.TotalValue = 0.0
+	client.Container.TotalCashValue = 0.0
 	client.Container.Updated = time.Now().Format("2006-01-02 15:04:05")
 
 	for _, account := range accounts.Data {
-		client.Container.TotalValue += account.Native_balance.Amount
+		client.Container.TotalCashValue += account.Native_balance.Amount
 
 		client.Container.Currencies[account.Balance.Currency] += account.Native_balance.Amount
 	}
