@@ -52,7 +52,7 @@ func Table(container *CurrencyContainer) {
 		table.Append(v)
 	}
 
-	table.SetFooter([]string{"", accountant.FormatMoney(container.TotalCashValue)})
+	table.SetFooter([]string{"", accountant.FormatMoney(container.TotalCashValue())})
 
 	table.Render()
 
