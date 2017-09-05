@@ -1,7 +1,6 @@
 package modules
 
 import (
-	// "fmt"
 	"time"
 )
 
@@ -38,18 +37,18 @@ func (cont *CurrencyContainer) ZeroOut() *CurrencyContainer {
 * populate that. If it does, add it to the existing
  */
 func (cont *CurrencyContainer) AddToCurrency(symbol string, quantity float64, cashValue float64) CryptoCurrency {
-	curr := cont.Currencies[symbol]
+	curr, ok := cont.Currencies[symbol]
 
-	/* If the currency does not yet exist (compared to the struct's zero value),
-	* create it, store it, and assign it
-	 */
-	if curr == (CryptoCurrency{}) {
+	/* If the currency does not yet exist create it, store it, and assign it */
+	if !ok {
 		cont.Currencies[symbol] = NewCryptoCurrency(symbol)
 		curr = cont.Currencies[symbol]
 	}
 
 	curr.Quantity += quantity
 	curr.CashValue += cashValue
+
+	cont.Currencies[symbol] = curr
 
 	return curr
 }

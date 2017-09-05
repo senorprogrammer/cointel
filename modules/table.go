@@ -43,7 +43,7 @@ func Table(container *CurrencyContainer) {
 	table.SetHeader([]string{"Currency", "Quantity", "Value"})
 
 	for symbol, currency := range container.Currencies {
-		quantStr := strconv.FormatFloat(currency.Quantity, 'f', 1, 64)
+		quantStr := strconv.FormatFloat(currency.Quantity, 'f', 4, 64)
 		cashStr := accountant.FormatMoney(currency.CashValue)
 
 		arr := []string{symbol, quantStr, cashStr}

@@ -1,7 +1,6 @@
 package modules
 
 import (
-	// "fmt"
 	"os"
 
 	"github.com/Zauberstuhl/go-coinbase"
@@ -27,6 +26,7 @@ func NewCoinbaseClient() CoinbaseClient {
 
 func (client *CoinbaseClient) Refresh() {
 	accounts, err := client.Client.Accounts()
+
 	if err != nil {
 		return
 	}
