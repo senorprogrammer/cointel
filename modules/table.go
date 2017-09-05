@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strconv"
 	"time"
 
 	"github.com/leekchan/accounting"
@@ -39,12 +40,13 @@ func Table(container *CurrencyContainer) {
 	tableData := [][]string{}
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Currency", "Value"})
+	table.SetHeader([]string{"Currency", "Quantity", "Value"})
 
-	for currency, value := range container.Currencies {
-		valStr := accountant.FormatMoney(value)
+	for symbol, currency := range container.Currencies {
+		quantStr := strconv.FormatFloat(currency.Quantity, 'f', 1, 64)
+		cashStr := accountant.FormatMoney(currency.CashValue)
 
-		arr := []string{currency, valStr}
+		arr := []string{symbol, quantStr, cashStr}
 		tableData = append(tableData, arr)
 	}
 
@@ -52,7 +54,7 @@ func Table(container *CurrencyContainer) {
 		table.Append(v)
 	}
 
-	table.SetFooter([]string{"", accountant.FormatMoney(container.TotalCashValue())})
+	table.SetFooter([]string{"", "", accountant.FormatMoney(container.TotalCashValue())})
 
 	table.Render()
 

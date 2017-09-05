@@ -23,11 +23,13 @@ func NewCurrencyContainer() CurrencyContainer {
 	return cont
 }
 
-func (cont *CurrencyContainer) ZeroOut() {
+func (cont *CurrencyContainer) ZeroOut() *CurrencyContainer {
 	for key := range cont.Currencies {
 		curr := cont.Currencies[key]
 		curr.ZeroOut()
 	}
+
+	return cont
 }
 
 /*
@@ -35,7 +37,7 @@ func (cont *CurrencyContainer) ZeroOut() {
 * If the currency doesn't exist, create a new instance of CryptoCurrency and
 * populate that. If it does, add it to the existing
  */
-func (cont *CurrencyContainer) AddToCurrency(symbol string, quantity float64, cashValue float64) {
+func (cont *CurrencyContainer) AddToCurrency(symbol string, quantity float64, cashValue float64) CryptoCurrency {
 	curr := cont.Currencies[symbol]
 
 	/* If the currency does not yet exist (compared to the struct's zero value),
@@ -48,10 +50,14 @@ func (cont *CurrencyContainer) AddToCurrency(symbol string, quantity float64, ca
 
 	curr.Quantity += quantity
 	curr.CashValue += cashValue
+
+	return curr
 }
 
-func (cont *CurrencyContainer) MarkAsUpdated() {
+func (cont *CurrencyContainer) MarkAsUpdated() *CurrencyContainer {
 	cont.Updated = time.Now().Format("2006-01-02 15:04:05")
+
+	return cont
 }
 
 // The sum of the CashValues of all CryptoCurrencies
