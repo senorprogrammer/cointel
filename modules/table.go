@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strconv"
 	"time"
 
 	"github.com/leekchan/accounting"
@@ -22,15 +23,14 @@ func MakeClearTerminal() {
 }
 
 func callClear() {
-	value, ok := clear[runtime.GOOS] //runtime.GOOS -> linux, windows, darwin etc.
-	if ok {                          //if we defined a clear func for that platform:
-		value() //we execute it
+	value, ok := clear[runtime.GOOS] // runtime.GOOS -> linux, windows, darwin etc.
+	if ok {                          // if we defined a clear func for that platform:
+		value() // we execute it
 	} else {
 		panic("Your platform is unsupported! I can't clear terminal screen :(")
 	}
 }
 
-// func DisplayTable(accounts *coinbase.APIAccounts) {
 func Table(container *CurrencyContainer) {
 	callClear()
 
@@ -40,12 +40,13 @@ func Table(container *CurrencyContainer) {
 	tableData := [][]string{}
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Currency", "Value"})
+	table.SetHeader([]string{"Currency", "Quantity", "Value"})
 
-	for currency, value := range container.Currencies {
-		valStr := accountant.FormatMoney(value)
+	for symbol, currency := range container.Currencies {
+		quantStr := strconv.FormatFloat(currency.Quantity, 'f', 4, 64)
+		cashStr := accountant.FormatMoney(currency.CashValue)
 
-		arr := []string{currency, valStr}
+		arr := []string{symbol, quantStr, cashStr}
 		tableData = append(tableData, arr)
 	}
 
@@ -53,7 +54,7 @@ func Table(container *CurrencyContainer) {
 		table.Append(v)
 	}
 
-	table.SetFooter([]string{"", accountant.FormatMoney(container.TotalValue)})
+	table.SetFooter([]string{"", "", accountant.FormatMoney(container.TotalCashValue())})
 
 	table.Render()
 
