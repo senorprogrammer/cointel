@@ -9,12 +9,13 @@ type CurrencyContainer struct {
 }
 
 func NewCurrencyContainer() CurrencyContainer {
-	cc := CurrencyContainer{}
-	cc.Currencies = make(map[string]float64)
-	cc.TotalValue = 0.0
-	cc.Updated = ""
+	cont := CurrencyContainer{}
+	cont.Currencies = make(map[string]float64)
+	cont.Updated = ""
 
-	return cc
+	cont.ZeroOut()
+
+	return cont
 }
 
 func (cont *CurrencyContainer) ZeroOut() {
