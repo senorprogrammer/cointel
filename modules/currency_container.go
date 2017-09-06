@@ -5,7 +5,7 @@ import (
 )
 
 /*
-* CurrencyContainer is a struct that holds instances of Currency.
+* CurrencyContainer is a struct that holds instances of CryptoCurrency.
 * It has the ability to update currencies with new data, and
 * provide a cash value total of their worth
  */
@@ -36,10 +36,9 @@ func (cont *CurrencyContainer) ZeroOut() *CurrencyContainer {
 * If the currency doesn't exist, create a new instance of CryptoCurrency and
 * populate that. If it does, add it to the existing
  */
-func (cont *CurrencyContainer) AddToCurrency(symbol string, quantity float64, cashValue float64) CryptoCurrency {
+func (cont *CurrencyContainer) AddToCurrency(symbol string, quantity, cashValue float64) CryptoCurrency {
 	curr, ok := cont.Currencies[symbol]
 
-	/* If the currency does not yet exist create it, store it, and assign it */
 	if !ok {
 		cont.Currencies[symbol] = NewCryptoCurrency(symbol)
 		curr = cont.Currencies[symbol]
