@@ -27,12 +27,14 @@ func NewCryptoCurrency(symbol string) CryptoCurrency {
 	return curr
 }
 
-func (curr *CryptoCurrency) ZeroOut() {
+func (curr *CryptoCurrency) ZeroOut() *CryptoCurrency {
 	curr.Quantity = 0.0
 	curr.CashValue = 0.0
+
+	return curr
 }
 
-func (curr *CryptoCurrency) Add(quantity float64, cashValue float64) {
+func (curr *CryptoCurrency) Add(quantity float64, cashValue float64) *CryptoCurrency {
 	if quantity >= 0 {
 		curr.Quantity += quantity
 	}
@@ -40,8 +42,12 @@ func (curr *CryptoCurrency) Add(quantity float64, cashValue float64) {
 	if cashValue >= 0 {
 		curr.CashValue += cashValue
 	}
+
+	return curr
 }
 
-func (curr *CryptoCurrency) MarkAsUpdated() {
+func (curr *CryptoCurrency) MarkAsUpdated() *CryptoCurrency {
 	curr.Updated = time.Now().Format("2006-01-02 15:04:05")
+
+	return curr
 }

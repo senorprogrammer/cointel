@@ -45,8 +45,8 @@ func (cont *CurrencyContainer) AddToCurrency(symbol string, quantity float64, ca
 		curr = cont.Currencies[symbol]
 	}
 
-	curr.Quantity += quantity
-	curr.CashValue += cashValue
+	curr.Add(quantity, cashValue)
+	curr.MarkAsUpdated()
 
 	cont.Currencies[symbol] = curr
 
