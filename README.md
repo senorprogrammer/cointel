@@ -11,6 +11,28 @@ A very thin, straight-forward client for Coinbase that displays cryptocurrency b
 
 Displays the data as either a table or as JSON.
 
+### Examples
+
+#### JSON
+
+<pre>
+{"Currencies":{"BTC":{"Quantity":0.00661205,"CashValue":36.971,"Symbol":"BTC","Updated":"2017-09-05 21:25:27"},"ETH":{"Quantity":0.04513654,"CashValue":18.52,"Symbol":"ETH","Updated":"2017-09-05 21:25:27"},"LTC":{"Quantity":0.34187566,"CashValue":32.57,"Symbol":"LTC","Updated":"2017-09-05 21:25:27"}},"Updated":"2017-09-05 21:25:27"}
+</pre>
+
+#### Table
+
+<pre>
++----------|----------|---------+
+| CURRENCY | QUANTITY |  VALUE  |
++----------|----------|---------+
+| BTC      |   0.0061 |  $36.97 |
+| ETH      |   0.0451 |  $18.52 |
+| LTC      |   0.3418 |  $32.57 |
++----------|----------|---------+
+|                        $88 06 |
++----------|----------|---------+
+</pre>
+
 ## Requirements
 
 ## Installation
