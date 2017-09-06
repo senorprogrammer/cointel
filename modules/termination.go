@@ -1,7 +1,6 @@
 package modules
 
 import (
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -19,5 +18,4 @@ func MakeTermination() {
 }
 
 func Cleanup() {
-	fmt.Println("goodbye")
 }

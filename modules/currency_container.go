@@ -26,6 +26,7 @@ func (cont *CurrencyContainer) ZeroOut() *CurrencyContainer {
 	for key := range cont.Currencies {
 		curr := cont.Currencies[key]
 		curr.ZeroOut()
+		cont.Currencies[key] = curr
 	}
 
 	return cont
