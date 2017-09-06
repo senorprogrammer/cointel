@@ -13,11 +13,11 @@ func MakeTermination() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		cleanup()
+		Cleanup()
 		os.Exit(0)
 	}()
 }
 
-func cleanup() {
+func Cleanup() {
 	fmt.Println("goodbye")
 }

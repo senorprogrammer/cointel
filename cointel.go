@@ -5,6 +5,7 @@ import (
 
 	"flag"
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -13,7 +14,8 @@ const FiveMinutes = 300 * time.Second
 const FifteenMinutes = (15 * 60) * time.Second
 
 func main() {
-	outputPtr := flag.String("output", "table", "Either 'table' or 'json'")
+	formatFlag := flag.String("format", "table", "Either 'table' or 'json'")
+	persistFlag := flag.Bool("persist", false, "Either true or false")
 	flag.Parse()
 
 	modules.MakeTermination()
@@ -25,12 +27,19 @@ func main() {
 		coinbaseClient.Refresh()
 
 		// Output the results
-		if *outputPtr == "json" {
+		if *formatFlag == "json" {
 			fmt.Println(modules.Json(&coinbaseClient.Container))
 		} else {
 			modules.Table(&coinbaseClient.Container)
 		}
 
-		time.Sleep(OneMinute)
+		// If this process should not persist, then kill itself
+		// Otherwise it'll periodically check until Ctl-C is pressed
+		if !*persistFlag {
+			modules.Cleanup()
+			os.Exit(0)
+		}
+
+		time.Sleep(FifteenMinutes)
 	}
 }
