@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"sort"
 	"strconv"
 	"time"
 
@@ -31,24 +32,45 @@ func callClear() {
 	}
 }
 
-func Table(container *CurrencyContainer) {
-	callClear()
+func sortSymbols(container *CurrencyContainer) []string {
+	symbolArr := make([]string, len(container.Currencies))
+	i := 0
 
-	// Used to format dollar values in the table output
-	accountant := accounting.Accounting{Symbol: "$", Precision: 2}
+	for symbol, _ := range container.Currencies {
+		symbolArr[i] = symbol
+		i++
+	}
 
+	sort.Strings(symbolArr)
+
+	return symbolArr
+}
+
+func buildTableData(symbols []string, container *CurrencyContainer, accountant *accounting.Accounting) [][]string {
 	tableData := [][]string{}
 
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Currency", "Quantity", "Value"})
+	for _, symbol := range symbols {
+		currency := container.Currencies[symbol]
 
-	for symbol, currency := range container.Currencies {
 		quantStr := strconv.FormatFloat(currency.Quantity, 'f', 4, 64)
 		cashStr := accountant.FormatMoney(currency.CashValue)
 
 		arr := []string{symbol, quantStr, cashStr}
 		tableData = append(tableData, arr)
 	}
+
+	return tableData
+}
+
+func Table(container *CurrencyContainer) {
+	callClear()
+
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Currency", "Quantity", "Value"})
+
+	accountant := accounting.Accounting{Symbol: "$", Precision: 2}
+	symbols := sortSymbols(container)
+	tableData := buildTableData(symbols, container, &accountant)
 
 	for _, v := range tableData {
 		table.Append(v)
@@ -58,8 +80,7 @@ func Table(container *CurrencyContainer) {
 
 	table.Render()
 
-	t := time.Now()
-	fmt.Println(t.Format("15:04:15"))
+	fmt.Println(time.Now().Format("15:04:15"))
 
 	fmt.Println()
 }
