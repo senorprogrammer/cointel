@@ -15,6 +15,35 @@ Displays the data as either a table or as JSON.
 
 ## Installation
 
+### Coinbase API
+
+First, generate a Coinbase API key (`Settings -> API Access`). I recommend you creat a new key for `cointel` to use, so you can restrict the permissions as tightly as possible. This API key will need at least the following permissions:
+
+```
+* wallet:accounts:read 
+* wallet:addresses:read
+```
+
+You *do not* need to give `cointel` any *write* permissions.
+
+Next, you need to set two environment variables before running `cointel`:
+
+#### COINBASE_KEY
+
+Your Coinbase API key. Add this to your bash|zsh|fish profile:
+
+```
+export COINBASE_KEY='[your key here]'
+```
+
+#### COINBASE_SECRET
+
+Your Coinbase API secret. Add this to your bash|zsh|fish profile:
+
+```
+export COINBASE_SECRET='[your secret here]'
+```
+
 ## Usage
 
 ```
