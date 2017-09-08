@@ -54,8 +54,9 @@ func buildTableData(symbols []string, container *CurrencyContainer, accountant *
 
 		quantStr := strconv.FormatFloat(currency.Quantity, 'f', 4, 64)
 		cashStr := accountant.FormatMoney(currency.CashValue)
+		idxStr := strconv.Itoa(currency.Index)
 
-		arr := []string{symbol, quantStr, cashStr}
+		arr := []string{symbol, quantStr, cashStr, idxStr}
 		tableData = append(tableData, arr)
 	}
 
@@ -66,7 +67,7 @@ func Table(container *CurrencyContainer) {
 	callClear()
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Currency", "Quantity", "Value"})
+	table.SetHeader([]string{"Currency", "Quantity", "Value", ""})
 
 	accountant := accounting.Accounting{Symbol: "$", Precision: 2}
 	symbols := sortSymbols(container)
@@ -76,7 +77,7 @@ func Table(container *CurrencyContainer) {
 		table.Append(v)
 	}
 
-	table.SetFooter([]string{"", "", accountant.FormatMoney(container.TotalCashValue())})
+	table.SetFooter([]string{"", "", accountant.FormatMoney(container.TotalCashValue()), ""})
 
 	table.Render()
 

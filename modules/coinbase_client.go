@@ -35,7 +35,7 @@ func (client *CoinbaseClient) Refresh() {
 }
 
 func (client *CoinbaseClient) Update(accounts coinbase.APIAccounts) {
-	client.Container.ZeroOut()
+	client.Container.NewVersion()
 
 	for _, account := range accounts.Data {
 		client.Container.AddToCurrency(

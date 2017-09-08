@@ -15,14 +15,26 @@ type CryptoCurrency struct {
 	CashValue float64
 	Symbol    string
 	Updated   string
+
+	/* Currencies are a linked-list of entries */
+	Next *CryptoCurrency
+	Prev *CryptoCurrency
+
+	Index int
 }
 
-func NewCryptoCurrency(symbol string) CryptoCurrency {
+// func NewCryptoCurrency(symbol string, prev *CryptoCurrency) CryptoCurrency {
+func NewCryptoCurrency(symbol string, prev *CryptoCurrency, idx int) CryptoCurrency {
 	curr := CryptoCurrency{}
 	curr.Quantity = 0.0
 	curr.CashValue = 0.0
 	curr.Symbol = symbol
 	curr.Updated = ""
+
+	curr.Prev = prev
+	curr.Next = &CryptoCurrency{}
+
+	curr.Index = idx
 
 	return curr
 }

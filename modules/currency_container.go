@@ -22,11 +22,16 @@ func NewCurrencyContainer() CurrencyContainer {
 	return cont
 }
 
-func (cont *CurrencyContainer) ZeroOut() *CurrencyContainer {
-	for key := range cont.Currencies {
-		curr := cont.Currencies[key]
-		curr.ZeroOut()
-		cont.Currencies[key] = curr
+/*
+* Creates a new set of CryptoCurrency entries with empty values ready to be populated with
+* sweet, sweet data numbers
+ */
+func (cont *CurrencyContainer) NewVersion() *CurrencyContainer {
+	for _, curr := range cont.Currencies {
+		nextCurr := NewCryptoCurrency(curr.Symbol, &curr, curr.Index+1)
+		curr.Next = &nextCurr
+
+		cont.Currencies[curr.Symbol] = nextCurr
 	}
 
 	return cont
@@ -41,7 +46,7 @@ func (cont *CurrencyContainer) AddToCurrency(symbol string, quantity, cashValue 
 	curr, ok := cont.Currencies[symbol]
 
 	if !ok {
-		cont.Currencies[symbol] = NewCryptoCurrency(symbol)
+		cont.Currencies[symbol] = NewCryptoCurrency(symbol, &curr, 0)
 		curr = cont.Currencies[symbol]
 	}
 
