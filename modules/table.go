@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
-	"sort"
+	// "sort"
 	"strconv"
 	"time"
 
@@ -32,19 +32,19 @@ func callClear() {
 	}
 }
 
-func sortSymbols(container *CurrencyContainer) []string {
-	symbolArr := make([]string, len(container.Currencies))
-	i := 0
+// func sortSymbols(container *CurrencyContainer) []string {
+// 	symbolArr := make([]string, len(container.Currencies))
+// 	i := 0
 
-	for symbol, _ := range container.Currencies {
-		symbolArr[i] = symbol
-		i++
-	}
+// 	for symbol, _ := range container.Currencies {
+// 		symbolArr[i] = symbol
+// 		i++
+// 	}
 
-	sort.Strings(symbolArr)
+// 	sort.Strings(symbolArr)
 
-	return symbolArr
-}
+// 	return symbolArr
+// }
 
 func buildTableData(symbols []string, container *CurrencyContainer, accountant *accounting.Accounting) [][]string {
 	tableData := [][]string{}
