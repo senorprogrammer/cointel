@@ -3,48 +3,12 @@ package modules
 import (
 	"fmt"
 	"os"
-	"os/exec"
-	"runtime"
-	// "sort"
 	"strconv"
 	"time"
 
 	"github.com/leekchan/accounting"
 	"github.com/olekukonko/tablewriter"
 )
-
-var clear map[string]func() //create a map for storing clear funcs
-func MakeClearTerminal() {
-	clear = make(map[string]func())
-	clear["darwin"] = func() {
-		cmd := exec.Command("clear")
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-	}
-}
-
-func callClear() {
-	value, ok := clear[runtime.GOOS] // runtime.GOOS -> linux, windows, darwin etc.
-	if ok {                          // if we defined a clear func for that platform:
-		value() // we execute it
-	} else {
-		panic("Your platform is unsupported! I can't clear terminal screen :(")
-	}
-}
-
-// func sortSymbols(container *CurrencyContainer) []string {
-// 	symbolArr := make([]string, len(container.Currencies))
-// 	i := 0
-
-// 	for symbol, _ := range container.Currencies {
-// 		symbolArr[i] = symbol
-// 		i++
-// 	}
-
-// 	sort.Strings(symbolArr)
-
-// 	return symbolArr
-// }
 
 func buildTableData(symbols []string, container *CurrencyContainer, accountant *accounting.Accounting) [][]string {
 	tableData := [][]string{}

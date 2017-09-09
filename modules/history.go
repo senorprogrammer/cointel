@@ -16,6 +16,8 @@ func buildHistoryData(symbols []string, container *CurrencyContainer, accountant
 }
 
 func History(container *CurrencyContainer) {
+	callClear()
+
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"IDX", "", "", ""})
 
