@@ -26,9 +26,10 @@ func main() {
 	for {
 		coinbaseClient.Refresh()
 
-		// Output the results
 		if *formatFlag == "json" {
 			fmt.Println(modules.Json(&coinbaseClient.Container))
+		} else if *formatFlag == "history" {
+			modules.History(&coinbaseClient.Container)
 		} else {
 			modules.Table(&coinbaseClient.Container)
 		}
