@@ -1,56 +1,37 @@
 package modules
 
 import (
+	_ "fmt"
 	"time"
 )
 
-/*
-* CurrencyContainer is a struct that holds instances of CryptoCurrency.
-* It has the ability to update currencies with new data, and
-* provide a cash value total of their worth
- */
 type CurrencyContainer struct {
-	Currencies map[string]CryptoCurrency
-	Updated    string
+	Histories map[string]CurrencyHistory
+	Updated   string
 }
 
 func NewCurrencyContainer() CurrencyContainer {
 	cont := CurrencyContainer{}
-	cont.Currencies = make(map[string]CryptoCurrency)
+	cont.Histories = make(map[string]CurrencyHistory)
 	cont.Updated = ""
 
 	return cont
 }
 
-func (cont *CurrencyContainer) ZeroOut() *CurrencyContainer {
-	for key := range cont.Currencies {
-		curr := cont.Currencies[key]
-		curr.ZeroOut()
-		cont.Currencies[key] = curr
-	}
-
-	return cont
-}
-
-/*
-* Adds a sum to the given currency in the container
-* If the currency doesn't exist, create a new instance of CryptoCurrency and
-* populate that. If it does, add it to the existing
- */
-func (cont *CurrencyContainer) AddToCurrency(symbol string, quantity, cashValue float64) CryptoCurrency {
-	curr, ok := cont.Currencies[symbol]
+func (cont *CurrencyContainer) Append(currency CryptoCurrency) CurrencyHistory {
+	hist, ok := cont.Histories[currency.Symbol]
 
 	if !ok {
-		cont.Currencies[symbol] = NewCryptoCurrency(symbol)
-		curr = cont.Currencies[symbol]
+		cont.Histories[currency.Symbol] = NewCurrencyHistory(currency.Symbol)
+		hist = cont.Histories[currency.Symbol]
 	}
 
-	curr.Add(quantity, cashValue)
-	curr.MarkAsUpdated()
+	hist.Append(currency)
+	cont.Histories[currency.Symbol] = hist
 
-	cont.Currencies[symbol] = curr
+	cont.MarkAsUpdated()
 
-	return curr
+	return hist
 }
 
 func (cont *CurrencyContainer) MarkAsUpdated() *CurrencyContainer {
@@ -59,13 +40,12 @@ func (cont *CurrencyContainer) MarkAsUpdated() *CurrencyContainer {
 	return cont
 }
 
-// The sum of the CashValues of all CryptoCurrencies
 func (cont *CurrencyContainer) TotalCashValue() float64 {
 	totalValue := 0.0
 
-	for key := range cont.Currencies {
-		curr := cont.Currencies[key]
-		totalValue += curr.CashValue
+	for key := range cont.Histories {
+		hist := cont.Histories[key]
+		totalValue += hist.Last().CashValue
 	}
 
 	return totalValue

@@ -33,10 +33,10 @@ func callClear() {
 }
 
 func sortSymbols(container *CurrencyContainer) []string {
-	symbolArr := make([]string, len(container.Currencies))
+	symbolArr := make([]string, len(container.Histories))
 	i := 0
 
-	for symbol, _ := range container.Currencies {
+	for symbol, _ := range container.Histories {
 		symbolArr[i] = symbol
 		i++
 	}
@@ -50,10 +50,10 @@ func buildTableData(symbols []string, container *CurrencyContainer, accountant *
 	tableData := [][]string{}
 
 	for _, symbol := range symbols {
-		currency := container.Currencies[symbol]
+		hist := container.Histories[symbol]
 
-		quantStr := strconv.FormatFloat(currency.Quantity, 'f', 4, 64)
-		cashStr := accountant.FormatMoney(currency.CashValue)
+		quantStr := strconv.FormatFloat(hist.Last().Quantity, 'f', 4, 64)
+		cashStr := accountant.FormatMoney(hist.Last().CashValue)
 
 		arr := []string{symbol, quantStr, cashStr}
 		tableData = append(tableData, arr)
