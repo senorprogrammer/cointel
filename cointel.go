@@ -41,6 +41,6 @@ func main() {
 			os.Exit(0)
 		}
 
-		time.Sleep(OneMinute)
+		time.Sleep(FifteenMinutes)
 	}
 }

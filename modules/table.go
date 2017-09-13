@@ -10,8 +10,10 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-func buildTableData(symbols []string, container *CurrencyContainer, accountant *accounting.Accounting) [][]string {
+func buildTableData(container *CurrencyContainer, accountant *accounting.Accounting) [][]string {
 	tableData := [][]string{}
+
+	symbols := sortSymbols(container)
 
 	for _, symbol := range symbols {
 		hist := container.Histories[symbol]
@@ -33,8 +35,7 @@ func Table(container *CurrencyContainer) {
 	table.SetHeader([]string{"Currency", "Quantity", "Value"})
 
 	accountant := accounting.Accounting{Symbol: "$", Precision: 2}
-	symbols := sortSymbols(container)
-	tableData := buildTableData(symbols, container, &accountant)
+	tableData := buildTableData(container, &accountant)
 
 	for _, v := range tableData {
 		table.Append(v)

@@ -50,3 +50,14 @@ func (cont *CurrencyContainer) TotalCashValue() float64 {
 
 	return totalValue
 }
+
+func (cont *CurrencyContainer) Depth() int {
+	depth := 0
+
+	for key := range cont.Histories {
+		hist := cont.Histories[key]
+		depth = hist.Depth()
+	}
+
+	return depth
+}
