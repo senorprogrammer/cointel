@@ -30,8 +30,10 @@ func main() {
 			fmt.Println(modules.Json(&coinbaseClient.Container))
 		} else if *formatFlag == "history" {
 			modules.History(&coinbaseClient.Container)
-		} else {
+		} else if *formatFlag == "table" {
 			modules.Table(&coinbaseClient.Container)
+		} else {
+			fmt.Println(modules.Json(&coinbaseClient.Container))
 		}
 
 		// If this process should not persist, then kill itself
