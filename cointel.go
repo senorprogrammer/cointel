@@ -14,7 +14,7 @@ const FiveMinutes = 300 * time.Second
 const FifteenMinutes = (15 * 60) * time.Second
 
 func main() {
-	formatFlag := flag.String("format", "table", "Either 'table' or 'json'")
+	formatFlag := flag.String("format", "json", "Either 'table' or 'json'")
 	persistFlag := flag.Bool("persist", false, "Either true or false")
 	flag.Parse()
 
