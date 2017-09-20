@@ -24,6 +24,10 @@ func main() {
 	coinbaseClient := modules.NewCoinbaseClient()
 
 	for {
+		if *persistFlag {
+			modules.CallClear()
+		}
+
 		coinbaseClient.Refresh()
 
 		if *formatFlag == "json" {

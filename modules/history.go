@@ -38,8 +38,6 @@ func buildHistoryData(container *CurrencyContainer, accountant *accounting.Accou
 }
 
 func History(container *CurrencyContainer) {
-	callClear()
-
 	table := tablewriter.NewWriter(os.Stdout)
 
 	accountant := accounting.Accounting{Symbol: "$", Precision: 2}

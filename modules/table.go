@@ -29,8 +29,6 @@ func buildTableData(container *CurrencyContainer, accountant *accounting.Account
 }
 
 func Table(container *CurrencyContainer) {
-	callClear()
-
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Currency", "Quantity", "Value"})
 
