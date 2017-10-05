@@ -9,9 +9,19 @@
 
 A very thin, straight-forward client for Coinbase that displays cryptocurrency balances in their native currency. Written in Go.
 
-Displays the data as either a table or as JSON.
-
 ### Examples
+
+#### History
+
+<pre>
++----------+-------+-------+-------+-------+-------+-------+-------+
+| CURRENCY |       |       |       |       |       |       |       |
++----------+-------+-------+-------+-------+-------+-------+-------+
+| BTC      | 38.78 | 38.75 | 38.62 | 38.74 | 38.88 | 38.99 | 39.00 |
+| ETH      | 20.51 | 20.51 | 20.48 | 20.48 | 20.50 | 20.58 | 20.57 |
+| LTC      | 26.35 | 26.34 | 26.32 | 26.34 | 26.34 | 26.36 | 26.42 |
++----------+-------+-------+-------+-------+-------+-------+-------+
+</pre>
 
 #### JSON
 
@@ -69,13 +79,14 @@ export COINBASE_SECRET='[your secret here]'
 ## Usage
 
 ```
-cointel --format=[json|table] --persist=[true|false]
+cointel --format=[history|json|table] --persist=[true|false]
 ```
 
 ### Options
 
 #### format
 
+* history - displays a series of values, one every fifteen minutes
 * json - display the output as a JSON-encoded string
 * table - display the output as an ASCII-art table
 
