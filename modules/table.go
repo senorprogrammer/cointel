@@ -47,12 +47,16 @@ func Table(client *CoinbaseClient, persistFlag bool) {
 		}
 
 		table.SetFooter([]string{"", "", accountant.FormatMoney(client.Container.TotalCashValue())})
-
 		table.Render()
 
 		fmt.Println(time.Now().Format("15:04:15\n"))
 
-		// fmt.Println()
+		// If this process should not persist, then kill itself
+		// Otherwise it'll periodically check until Ctl-C is pressed
+		if !persistFlag {
+			Cleanup()
+			os.Exit(0)
+		}
 
 		// GET RID OF THIS
 		time.Sleep(300 * time.Second)

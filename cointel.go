@@ -31,35 +31,4 @@ func main() {
 	case "table":
 		modules.Table(&coinbaseClient, *persistFlag)
 	}
-
-	/*
-	* Move this entire loop into the modules themselves to different modules can
-	* have different loops, screen-clearing, and termination processes
-	 */
-	// for {
-	// 	if *persistFlag {
-	// 		modules.CallClear()
-	// 	}
-
-	// 	coinbaseClient.Refresh()
-
-	// 	if *formatFlag == "json" {
-	// 		fmt.Println(modules.Json(&coinbaseClient.Container))
-	// 	} else if *formatFlag == "history" {
-	// 		modules.History(&coinbaseClient.Container)
-	// 	} else if *formatFlag == "table" {
-	// 		modules.Table(&coinbaseClient.Container)
-	// 	} else {
-	// 		fmt.Println(modules.Json(&coinbaseClient.Container))
-	// 	}
-
-	// 	// If this process should not persist, then kill itself
-	// 	// Otherwise it'll periodically check until Ctl-C is pressed
-	// 	if !*persistFlag {
-	// 		modules.Cleanup()
-	// 		os.Exit(0)
-	// 	}
-
-	// 	time.Sleep(FifteenMinutes)
-	// }
 }
