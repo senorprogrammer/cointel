@@ -63,10 +63,11 @@ func History(client *CoinbaseClient, persistFlag bool) {
 
 		// If this process should not persist, then kill itself
 		// Otherwise it'll periodically check until Ctl-C is pressed
-		if !persistFlag {
-			Cleanup()
-			os.Exit(0)
-		}
+		// if !persistFlag {
+		// 	Cleanup()
+		// 	os.Exit(0)
+		// }
+		Terminate(persistFlag)
 
 		// GET RID OF THIS
 		time.Sleep(300 * time.Second)

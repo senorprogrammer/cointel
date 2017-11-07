@@ -17,4 +17,6 @@ func Json(client *CoinbaseClient, persistFlag bool) {
 	}
 
 	fmt.Println(string(json))
+
+	Terminate(false)
 }

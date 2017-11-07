@@ -19,3 +19,13 @@ func MakeTermination() {
 
 func Cleanup() {
 }
+
+/*
+* If the persistFlag is false (ie don't keep executing), then clean up the app and exit
+ */
+func Terminate(persistFlag bool) {
+	if !persistFlag {
+		Cleanup()
+		os.Exit(0)
+	}
+}
