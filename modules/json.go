@@ -1,14 +1,20 @@
 package modules
 
 import (
+	"fmt"
+	"log"
+
 	"encoding/json"
 )
 
-func Json(cont *CurrencyContainer) string {
-	json, err := json.Marshal(cont)
+func Json(coinbaseClient *CoinbaseClient, persistFlag bool) {
+
+	coinbaseClient.Refresh()
+
+	json, err := json.Marshal(coinbaseClient.Container)
 	if err != nil {
-		return ""
+		log.Panic("JSON error")
 	}
 
-	return string(json)
+	fmt.Println(string(json))
 }
