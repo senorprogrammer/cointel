@@ -26,6 +26,10 @@ func main() {
 	switch *formatFlag {
 	case "json":
 		modules.Json(&coinbaseClient, *persistFlag)
+	case "history":
+		modules.History(&coinbaseClient, *persistFlag)
+	case "table":
+		modules.Table(&coinbaseClient, *persistFlag)
 	}
 
 	/*

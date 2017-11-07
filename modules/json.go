@@ -7,11 +7,11 @@ import (
 	"encoding/json"
 )
 
-func Json(coinbaseClient *CoinbaseClient, persistFlag bool) {
+func Json(client *CoinbaseClient, persistFlag bool) {
 
-	coinbaseClient.Refresh()
+	client.Refresh()
 
-	json, err := json.Marshal(coinbaseClient.Container)
+	json, err := json.Marshal(client.Container)
 	if err != nil {
 		log.Panic("JSON error")
 	}

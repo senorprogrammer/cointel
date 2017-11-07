@@ -37,23 +37,31 @@ func buildHistoryData(container *CurrencyContainer, accountant *accounting.Accou
 	return historyData
 }
 
-func History(container *CurrencyContainer) {
+func History(client *CoinbaseClient, persistFlag bool) {
 	table := tablewriter.NewWriter(os.Stdout)
 
 	accountant := accounting.Accounting{Symbol: "$", Precision: 2}
-	historyData := buildHistoryData(container, &accountant)
 
-	for _, v := range historyData {
-		table.Append(v)
+	for {
+		if persistFlag {
+			CallClear()
+		}
+
+		client.Refresh()
+
+		historyData := buildHistoryData(&client.Container, &accountant)
+
+		for _, v := range historyData {
+			table.Append(v)
+		}
+
+		// The header is a bunch of empty cells, equal to the number of history entries (minus the first label)
+		headers := append([]string{"Currency"}, make([]string, len(historyData[0])-1)...)
+		table.SetHeader(headers)
+		table.Render()
+		fmt.Println(time.Now().Format("15:04:15\n"))
+
+		// GET RID OF THIS
+		time.Sleep(300 * time.Second)
 	}
-
-	// The header is a bunch of empty cells, equal to the number of history entries (minus the first label)
-	headers := append([]string{"Currency"}, make([]string, len(historyData[0])-1)...)
-	table.SetHeader(headers)
-
-	table.Render()
-
-	fmt.Println(time.Now().Format("15:04:15"))
-
-	fmt.Println()
 }
